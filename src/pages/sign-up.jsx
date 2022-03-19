@@ -4,10 +4,13 @@ import FirebaseContext from '../context/firebase';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { DASHBOARD } from '../constants/routes';
+import { doesUserNameExists } from '../services/firebase';
 
-const Login = () => {
+const SignUp = () => {
   const history = useHistory();
   const { firebase } = useContext(FirebaseContext);
+  const [userName, setUserName] = useState('');
+  const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -16,21 +19,49 @@ const Login = () => {
   const resetForm = () => {
     setEmail('');
     setPassword('');
+    setUserName('');
+    setFullName('');
   };
 
-  const handleLogin = async (event) => {
+  const handleSignUp = async (event) => {
     event.preventDefault();
 
-    try {
-      await firebase.auth().signInWithEmailAndPassword(email, password);
-      history.push(DASHBOARD);
-    } catch (error) {
-      resetForm();
-      setError(error.message);
+    const usernameExists = await doesUserNameExists(userName);
+
+    if (usernameExists.length === 0) {
+      try {
+        const createdUserResult = await firebase
+          .auth()
+          .createUserWithEmailAndPassword(email, password);
+
+        await createdUserResult.user.updateProfile({
+          displayName: userName,
+        });
+
+        await firebase
+          .firestore()
+          .collection('users')
+          .add({
+            userId: createdUserResult.user.uid,
+            username: userName.toLowerCase(),
+            fullName,
+            emailAddress: email,
+            following: ['SFFAa7RdivS9cCdoWsvl3PCVoM82'],
+            followers: [],
+            dateCreated: Date.now(),
+          });
+
+        history.push(DASHBOARD);
+      } catch (error) {
+        resetForm();
+        setError(error.message);
+      }
+    } else {
+      setError('That username is already taken. Please try another!');
     }
   };
 
-  useEffect(() => (document.title = 'Login - Instagram'), []);
+  useEffect(() => (document.title = 'Sign Up - Instagram'), []);
 
   return (
     <div className="container flex mx-auto max-w-screen-md items-center h-screen">
@@ -49,10 +80,24 @@ const Login = () => {
               className="mt-2 w-6/12 mb-4"
             />
           </h1>
-          {error && (
-            <p className="mb-4 text-xs text-red-primary">{error.message}</p>
-          )}
-          <form method="POST" onSubmit={handleLogin}>
+          {error && <p className="mb-4 text-xs text-red-primary">{error}</p>}
+          <form method="POST" onSubmit={handleSignUp}>
+            <input
+              type="text"
+              aria-label="Enter your username"
+              placeholder="Username"
+              className="text-sm text-gray-base w-full mr-3 py-5 px-4 h-2 outline-none border border-gray-primary focus:border-b-blue-medium rounded mb-2"
+              onChange={({ target }) => setUserName(target.value)}
+              value={userName}
+            />
+            <input
+              type="text"
+              aria-label="Enter your fullname"
+              placeholder="Fullname"
+              className="text-sm text-gray-base w-full mr-3 py-5 px-4 h-2 outline-none border border-gray-primary focus:border-b-blue-medium rounded mb-2"
+              onChange={({ target }) => setFullName(target.value)}
+              value={fullName}
+            />
             <input
               type="text"
               aria-label="Enter your email address"
@@ -78,15 +123,15 @@ const Login = () => {
                 isInvalid && 'opacity-50'
               }`}
             >
-              Log In
+              Sign Up
             </button>
           </form>
         </div>
         <div className="flex justify-center items-center flex-col w-full bg-white p-4 border border-gray-primary rounded">
           <p className="text-sm">
-            Don't have an account ?&nbsp;
-            <Link to="/sign-up" className="font-bold text-blue-medium">
-              Sign Up
+            Already have an account ?&nbsp;
+            <Link to="/login" className="font-bold text-blue-medium">
+              Log In
             </Link>
           </p>
         </div>
@@ -95,4 +140,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;
