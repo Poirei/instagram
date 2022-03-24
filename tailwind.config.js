@@ -1,6 +1,9 @@
 module.exports = {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
+    fill: (theme) => ({
+      red: theme('colors.red.primary'),
+    }),
     colors: {
       white: '#ffffffff',
       blue: {

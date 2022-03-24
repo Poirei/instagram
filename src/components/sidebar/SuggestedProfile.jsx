@@ -1,6 +1,10 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import {
+  updateFollowedUserFollowers,
+  updateLoggedInUserFollowing,
+} from '../../services/firebase';
 
 function SuggestedProfile({
   profileDocId,
