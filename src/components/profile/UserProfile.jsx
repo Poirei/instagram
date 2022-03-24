@@ -21,7 +21,6 @@ function UserProfile({ user }) {
   useEffect(() => {
     async function getProfileInfoAndPhotos() {
       const photos = await getUserPhotosByUsername(user.username);
-      console.log(photos);
       dispatch({
         profile: user,
         photosCollection: photos,
@@ -34,7 +33,12 @@ function UserProfile({ user }) {
 
   return (
     <>
-      <Header />
+      <Header
+        photosCount={photosCollection.length}
+        followerCount={followerCount}
+        setFollowerCount={dispatch}
+        profile={profile}
+      />
       <Photos photos={photosCollection} />
     </>
   );

@@ -17,7 +17,6 @@ function Profile() {
 
       if (user.length > 0) {
         setUser(...user);
-        console.log(user);
       } else {
         history.push(NOT_FOUND);
       }
