@@ -2,7 +2,7 @@ export const LogoutIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="w-8 mr-6 text-black-light cursor-pointer"
+      className="w-8 mr-6 text-black-light cursor-pointer hover:stroke-red-primary transition-colors"
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"

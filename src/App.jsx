@@ -20,6 +20,7 @@ const Profile = lazy(() => import('./pages/profile'));
 const Dashboard = lazy(() => import('./pages/dashboard'));
 
 function App() {
+  // authenticated user object from firebase
   const { user } = useAuthListener();
 
   return (

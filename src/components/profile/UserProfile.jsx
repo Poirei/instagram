@@ -29,7 +29,7 @@ function UserProfile({ user }) {
     }
 
     getProfileInfoAndPhotos();
-  }, [user.userName]);
+  }, [user.username]);
 
   return (
     <>
