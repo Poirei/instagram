@@ -13,7 +13,13 @@ const User = ({ username, fullName }) =>
     >
       <div className="flex items-center justify-between col-span-1">
         <img
-          src={`/public/images/avatars/${username}.jpg`}
+          src={`/public/images/avatars/${
+            ['dali', 'karl', 'orwell', 'poirei', 'raphael', 'steve'].includes(
+              username
+            )
+              ? `${username}.jpg`
+              : 'default.png'
+          }`}
           alt=""
           className="rounded-full w-16 flex mr-3"
         />
