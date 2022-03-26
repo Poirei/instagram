@@ -13,7 +13,7 @@ const User = ({ username, fullName }) =>
     >
       <div className="flex items-center justify-between col-span-1">
         <img
-          src={`/public/images/avatars/${
+          src={`/images/avatars/${
             ['dali', 'karl', 'orwell', 'poirei', 'raphael', 'steve'].includes(
               username
             )

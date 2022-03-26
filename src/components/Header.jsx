@@ -17,7 +17,7 @@ const Header = () => {
             <h1 className="flex justify-center w-full">
               <Link to={DASHBOARD}>
                 <img
-                  src="/public/images/logo.png"
+                  src="/images/logo.png"
                   alt="Instagram logo"
                   aria-label="Instagram logo"
                   className="mt-2 w-6/12"
@@ -47,7 +47,7 @@ const Header = () => {
                   <Link to={`/p/${user.displayName}`}>
                     <img
                       className="rounded-full h-8 w-8 flex"
-                      src={`/public/images/avatars/${
+                      src={`/images/avatars/${
                         [
                           'dali',
                           'karl',

@@ -30,7 +30,13 @@ function SuggestedProfile({
     <div className="flex flex-row items-center justify-between">
       <div className="flex items-center justify-between">
         <img
-          src={`/public/images/avatars/${username}.jpg`}
+          src={`/images/avatars/${
+            ['dali', 'karl', 'orwell', 'poirei', 'raphael', 'steve'].includes(
+              username
+            )
+              ? `${username}.jpg`
+              : 'default.png'
+          }`}
           alt=""
           className="rounded-full w-8 flex mr-3"
         />

@@ -52,7 +52,13 @@ function Header({
       <div className="container flex justify-center">
         {profileUsername ? (
           <img
-            src={`/public/images/avatars/${profileUsername}.jpg`}
+            src={`/images/avatars/${
+              ['dali', 'karl', 'orwell', 'poirei', 'raphael', 'steve'].includes(
+                profileUsername
+              )
+                ? `${profileUsername}.jpg`
+                : 'default.png'
+            }`}
             alt={`${profileUsername} profile pic`}
             className="rounded-full h-40 w-40 flex"
           />
